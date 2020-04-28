@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class MysqlGenerator {
 
     /**
-     * RUN THIS
+     * 运行此方法
      */
     public static void main(String[] args) {
         // 代码生成器
@@ -23,6 +24,7 @@ public class MysqlGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
+        // 获取项目位置
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/src/main/java");
         // TODO 数据源配置
@@ -34,14 +36,14 @@ public class MysqlGenerator {
         mpg.setDataSource(dsc);
 
         // TODO 设置用户名
-        gc.setAuthor("yuan");
+        gc.setAuthor("lh");
         gc.setOpen(true);
+        // 自定义文件命名，注意 %s 会自动填充表实体属性！
         gc.setControllerName("%sController");
         // service 命名方式
         gc.setServiceName("%sService");
         // service impl 命名方式
         gc.setServiceImplName("%sServiceImpl");
-        // 自定义文件命名，注意 %s 会自动填充表实体属性！
         gc.setMapperName("%sMapper");
         gc.setXmlName("%sMapper");
         gc.setFileOverride(true);
@@ -52,6 +54,8 @@ public class MysqlGenerator {
         gc.setBaseResultMap(true);
         // XML columList
         gc.setBaseColumnList(false);
+        // 设置日期格式为Date
+        gc.setDateType(DateType.ONLY_DATE);
         mpg.setGlobalConfig(gc);
 
 
@@ -59,24 +63,12 @@ public class MysqlGenerator {
         // TODO 包配置
         PackageConfig pc = new PackageConfig();
         //pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.ayj.test");
-        pc.setEntity("common.model");
+        pc.setParent("com.lh.test");
+        pc.setEntity("model");
         pc.setService("service");
         pc.setServiceImpl("service.impl");
+        pc.setController("controller");
         mpg.setPackageInfo(pc);
-
-        // 自定义需要填充的字段
-        List<TableFill> tableFillList = new ArrayList<>();
-        //如 每张表都有一个创建时间、修改时间
-        //而且这基本上就是通用的了，新增时，创建时间和修改时间同时修改
-        //修改时，修改时间会修改，
-        //虽然像Mysql数据库有自动更新几只，但像ORACLE的数据库就没有了，
-        //使用公共字段填充功能，就可以实现，自动按场景更新了。
-        //如下是配置
-        //TableFill createField = new TableFill("gmt_create", FieldFill.INSERT);
-        //TableFill modifiedField = new TableFill("gmt_modified", FieldFill.INSERT_UPDATE);
-        //tableFillList.add(createField);
-        //tableFillList.add(modifiedField);
 
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
