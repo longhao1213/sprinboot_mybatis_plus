@@ -4,10 +4,8 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -48,6 +46,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
+        //这里使用et.lastModifyTime，是因为mybatis自动生代码里面的updateById方法，添加了@Param("et")注解，如果是直接获取lastModifyTime会报错
         if (metaObject.getValue("et.lastModifyTime") == null) {
             this.setFieldValByName("et.lastModifyTime", new Date(), metaObject);
             logger.info("自动填充最后修改时间");

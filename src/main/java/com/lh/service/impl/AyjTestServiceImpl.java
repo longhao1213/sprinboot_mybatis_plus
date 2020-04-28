@@ -3,7 +3,6 @@ package com.lh.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lh.common.ResultByPageView;
 import com.lh.model.AyjTest;
 import com.lh.mapper.AyjTestMapper;
 import com.lh.service.AyjTestService;
@@ -11,8 +10,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * <p>
@@ -44,16 +41,19 @@ public class AyjTestServiceImpl extends ServiceImpl<AyjTestMapper, AyjTest> impl
         ayjTestMapper.updateById(ayjTest);
     }
 
+    /**
+     * 分页条件查询
+     * @return
+     */
     @Override
     public IPage selectByCriteria() {
+        // 添加分页信息,一般是由前端传入，这里就直接写死
         Page<AyjTest> page = new Page<AyjTest>(1, 2);
+        // 添加查询条件
         QueryWrapper<AyjTest> queryWrapper = new QueryWrapper<AyjTest>();
         queryWrapper.eq("name", "test");
-//        List<AyjTest> list  = ayjTestMapper.selectList(queryWrapper);
+        // 调用查询
         IPage<AyjTest> iPage = ayjTestMapper.selectPage(page, queryWrapper);
-        ResultByPageView<List<AyjTest>> result = new ResultByPageView<List<AyjTest>>();
-//        BeanUtils.copyProperties(page, list);
-//        result.setData(list);
         return iPage;
     }
 }
